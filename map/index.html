@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no" />
+	<title>尚德实验学校导航图</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IDvNBsejl9oqMbPF316iKsXR"></script>
+	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>  
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<style>
+		* {
+			font-size: 13px;
+			font-family: '微软雅黑';
+		    color: #3c3c3c;
+		}
+		
+		body {
+			margin: 0;
+		    overflow: hidden;
+		}
+		
+		.searchDiv {
+			height:50px;
+			line-height: 50px;
+			z-index: 5;
+			background: #fff;
+			width: 100%;
+	    	border-radius: 5px;
+		}
+		
+		.sbg {
+		    width: 90%;
+		    margin: 0 auto;
+		    height: 36px;
+		    background: #ececec;
+		    margin-top: 8px;
+		    border-radius: 8px;
+		}
+		
+		.sdiv{
+		    width: 24px;
+		    height: 24px;
+		    background: url(images/s.png) no-repeat;
+		    float: left;
+		    background-size: 24px;
+		    margin-left: 5px;
+		    margin-top: 7px;
+		}
+		
+		input#search {
+		    outline: none;
+		    height: 28px;
+		    border: 1px solid #e3dbe3;
+		    margin-top: 2px;
+		    margin-left: 1px;
+		    border: none;
+		    width: 80%;
+		    background: #ececec;
+		}
+		
+		label.BMapLabel {
+		    border: 1px solid #dcdcdc !important;
+		    padding: 5px !important;
+		    background: #f7f7f7 !important;
+		    border-radius: 4px;
+		    color: #3c3c3c;
+		}
+		
+		#arrow {
+			width: 24px;
+		}
+		.anchorBL {
+		    display: none;
+		}
+		.orientate{
+		    width: 30px;
+		    height: 30px;
+		    position: fixed;
+		    bottom: 70px;
+		    background: url(images/p2.png) no-repeat;
+		    background-size: 28px;
+		    background-color: #f7f7f7;
+		    border: 1px solid #dcdcdc;
+		    border-radius: 8px;
+		    left: 20px;
+		}
+		span.BMap_Marker div {
+		    width: 24px !important;
+		    height: 24px !important;
+		}
+		.BMap_stdMpZoom {
+		    display: none;
+		}
+		.zoomDiv {
+		    top: 20px;
+		    right: 20px;
+		    position: fixed;
+		    width: 50px;
+		    height: 90px;
+		    border: 1px solid #dcdcdc;
+		    background: #f7f7f7;
+		    border-radius: 8px;
+		}
+		.zoomDiv div {
+		    height: 45px;
+		    background-size: 28px;
+		    background-position: center;
+		}
+		.addDiv {
+		    background: url(images/add.png) no-repeat;
+		    border-bottom: 1px solid #dcdcdc;
+		}
+		.aDiv{
+			background: url('images/a.png') no-repeat;
+		}
+		.BMap_stdMpCtrl {
+		    display: none;
+		}
+</style>
+</head>
+<body>
+    <div class="demo_main" style="width: 100%;margin: 0px auto;">
+   		<div style="min-height: 450px; width: 100%;" id="map"></div>
+   		<div class="zoomDiv">
+   			<div class="addDiv"></div>
+   			<div class="aDiv"></div>
+   		</div>
+   		<div class="orientate"></div>
+   		<div class="searchDiv" id="searchDiv">
+   			<div class="sbg">
+   				<div class="sdiv"></div>
+    			<input name="search" id="search" value="" placeholder="Input class number to search the buliding"/>
+   			</div>
+    	</div>
+   </div>
+</div>
+
+	<script type="text/javascript">
+		$(function(){
+	        /* by Peter 10.21 */
+	        map = new BMap.Map("map"); // 创建Map实例
+
+			document.body.addEventListener('touchmove', function (event) {
+			    event.preventDefault();
+			}, false);
+
+			$("body").height( $(window).height() );
+			var h = $(window).height();
+			$("#map").height($(window).height()-$("#searchDiv").height());
+			$("#search").change(function(){
+// 				map.clearOverlays();
+				if(marker){
+		        	 for(var i = 0; i <marker.length; i++){
+			        	 marker[i].remove();
+			         }
+		        }
+				marker = new Array(); //存放标注点对象的数组
+				
+				var key = $(this).val();
+				var room = build[key.toUpperCase()];
+				var ishas = false;
+				if(room){
+					ishas = true;
+					var markerArr = [{
+				         title : "国际部大楼—"+room+"楼",
+				         point : "121.6029,31.142195",
+				         address : "芜湖市弋江区 安徽信息工程学院",
+				         description : "Ejob大厦位于芜湖市弋江区鲁港附近，为Ejob公司综合研发及办公总部",
+				         tel : "10086"
+				     } ];
+					setPoint(markerArr);
+				}else {
+					for(var i = 0; i < build2.length; i++){
+						if(key.toUpperCase() == build2[i]){
+							var markerArr = [{
+						         title : "PYP大楼—"+key,
+						         point : "121.603174,31.140267",
+						         address : "芜湖市弋江区 安徽信息工程学院",
+						         description : "Ejob大厦位于芜湖市弋江区鲁港附近，为Ejob公司综合研发及办公总部",
+						         tel : "10086"
+						     } ];
+							setPoint(markerArr);
+							ishas = true;
+						}
+					}
+				}
+				
+				if(key == ""){
+					key = "0";
+				}else {
+					key = key.toUpperCase();
+					if(key == "ALL" || key == "所有"){
+						key = "";
+					}
+				}
+				
+				if(!ishas && key != "0"){
+					//没找到教室，开始在楼里面找
+					//显示所有楼
+		         	var markerArr = [];
+				 	for(var i = 0;i < buildall.length; i++){
+				 		var b = buildall[i];
+				 		if(b.name.toUpperCase().indexOf(key) != -1){
+				 			markerArr.push({
+							    title : b.name,
+							    point : b.point
+							});
+				 		}else if(b.enname.toUpperCase().indexOf(key) != -1){
+				 			markerArr.push({
+							    title : b.enname,
+							    point : b.point
+							});
+				 		}
+					}
+				 	if(markerArr.length > 0){
+				 		setPoint(markerArr);
+				 	}else{
+				 		map.centerAndZoom(centerp, 18); // 初始化地图,设置中心点坐标和地图级别。	
+				 	}
+				}
+			});
+	        
+	        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	        var isSafari = userAgent.indexOf("Safari") > -1;
+
+	        /* by Peter 10.21 */
+	        var start = '尚德';
+	        var end = '';
+
+	        //三种驾车策略：最少时间，最短距离，避开高速
+			var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];
+
+	        // 搜索路径
+	        function search(start, end, route){ 
+				var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true},policy: route});
+				driving.search(start, end);
+			}
+	        /* by Peter 10.21 */
+
+	        //消息框获取焦点
+	        $('#search').focus(function(){
+
+	        	setTimeout(function(){
+	        		document.getElementById("search").scrollIntoView();
+	        		document.getElementById("search").scrollIntoViewIfNeeded();
+	        		if(isSafari){
+	        			setTimeout(function(){
+		        			$(window).scrollTop($(window).scrollTop()-43);
+		        		},50);
+	        		}
+
+					// end = $('#search').val();
+	        		// //map.clearOverlays(); 
+	        		// console.log('起终点：', start, end);
+					// search(start, end, BMAP_DRIVING_POLICY_LEAST_DISTANCE);
+	        	},350);
+	        });
+	        
+	        $('#search').blur(function(){
+	        	
+	        });
+	        
+	        //定位按钮
+	        $(".orientate").click(function(){
+	        	setCuPoint(18);
+	        	if(!interP){
+	        		interP = setInterval(setCuPoint, 5000);
+	        	}
+       		});
+	        
+	        //缩放按钮
+	        $(".zoomDiv div").click(function(){
+	        	var z = 0;
+	        	if($(this).hasClass("addDiv")){
+	        		z = map.getZoom() + 1;
+	        	}else{
+	        		z = map.getZoom() - 1;
+	        	}
+	        	map.setZoom(z);
+	        });
+	        
+		});
+		
+		//定时刷新位置
+        var markerp,interP;
+		function setCuPoint(zoom){
+			var geolocation = new BMap.Geolocation();  
+			geolocation.getCurrentPosition(function (r) {  
+	      		if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+	      			if(zoom){
+	      				map.centerAndZoom(r.point, zoom);
+	      			}else{
+	      				map.centerAndZoom(r.point);
+	      			}
+					if(markerp){
+						markerp.point = r.point;
+						markerp.draw();
+					}else{
+						var myIcon = new BMap.Icon("images/j.png", new BMap.Size(24, 24));      
+				     	// 创建标注对象并添加到地图   
+				      	markerp = new BMap.Marker(r.point, {icon: myIcon,title:"markerp"});    
+				      	map.addOverlay(markerp);
+				      	$(".BMap_Marker img").eq($(".BMap_Marker[title='markerp']").index()).attr("id","arrow");
+					}
+		      	}else {  
+		          	alert('failed' + this.getStatus());  
+		      	}  
+		  	}, {enableHighAccuracy: true}); 
+		}
+		
+		var build = {"3A":3,"3B":3,"3C":3,"3D":3,"3E":3
+				,"4A":3,"4B":3,"4C":3,"4D":3,"4E":3
+				,"5A":3,"5B":3,"5C":3,"5D":3,"5E":3
+				,"6A":4,"6B":4,"6C":4,"6D":4,"6E":4
+				,"7A":4,"7B":4,"7C":4,"7D":4,"7E":4
+				,"8A":4,"8B":4,"8C":4,"8D":4,"8E":4
+				,"9A":4,"9B":4,"9C":4,"9D":4,"9E":4
+				,"10A":6,"10B":6,"10C":6,"10D":6,"10E":6
+				,"11A":6,"11B":6,"11C":6,"11D":6,"11E":6
+				,"12A":6,"12B":6,"12C":6,"12D":6,"12E":6};
+		var build2 = ["1A","2A","1B","2B","1C","2C","1D","2D","1E","2E"];
+		
+		var buildall = [{name:"大门",enname:"",point:"121.601593,31.142481"}
+			,{name:"学生服务中心",enname:"",point:"121.601013,31.142052"}
+			,{name:"图书馆",enname:"",point:"121.601849,31.141882"}
+			,{name:"科技楼",enname:"",point:"121.602325,31.141913"}
+			,{name:"国际部大楼",enname:"",point:"121.6029,31.142195"}
+			,{name:"国际文化交流大楼",enname:"",point:"121.603322,31.14226"}
+			,{name:"琴房",enname:"",point:"121.602981,31.142036"}
+			,{name:"大操场",enname:"",point:"121.604176,31.141789"}
+			,{name:"主席台",enname:"",point:"121.603538,31.141588"}
+			,{name:"看台",enname:"",point:"121.603412,31.141928"}
+			,{name:"食堂",enname:"",point:"121.603008,31.141565"}
+			,{name:"露天篮球场",enname:"",point:"121.604535,31.140761"}
+			,{name:"游泳馆",enname:"",point:"121.604041,31.140398"}
+			,{name:"7号楼宿舍",enname:"",point:"121.604256,31.140166"}
+			,{name:"8号楼宿舍",enname:"",point:"121.604975,31.140352"}
+			,{name:"4号宿舍楼",enname:"",point:"121.603286,31.140004"}
+			,{name:"5号宿舍楼",enname:"",point:"121.602424,31.139935"}
+			,{name:"6号宿舍楼",enname:"",point:"121.601472,31.139749"}
+			,{name:"PYP大楼",enname:"",point:"121.603174,31.140267"}
+			,{name:"1号篮球馆",enname:"",point:"121.603089,31.140684"}
+			,{name:"3号宿舍楼",enname:"",point:"121.602487,31.14029"}
+			,{name:"2号宿舍楼",enname:"",point:"121.601867,31.140383"}
+			,{name:"1号宿舍楼",enname:"",point:"121.601067,31.140468"}
+			,{name:"小操场",enname:"",point:"121.601499,31.140166"}
+			,{name:"F楼",enname:"",point:"121.602154,31.140715"}
+			,{name:"尚德大会堂",enname:"",point:"121.601975,31.14114"}
+			,{name:"喷泉广场",enname:"",point:"121.602595,31.141295"}
+			,{name:"校服场",enname:"",point:"121.603479,31.141416"}
+			,{name:"E楼",enname:"",point:"121.601022,31.141225"}]
+	     
+	     var map;
+	     var centerp;
+	     function map_init() {
+	         map = new BMap.Map("map"); // 创建Map实例
+	         centerp = new BMap.Point(121.602855,31.141855); //地图中心点
+	         map.centerAndZoom(centerp, 18); // 初始化地图,设置中心点坐标和地图级别。
+	         map.enableScrollWheelZoom(true); //启用滚轮放大缩小
+	         //地图、卫星、混合模式切换
+	         /* map.addControl(new BMap.MapTypeControl({
+	             mapTypes : [ BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP,
+	                     BMAP_HYBRID_MAP ]
+	         })); */
+	         //向地图中添加缩放控件
+	         var ctrlNav = new window.BMap.NavigationControl({
+	             anchor : BMAP_ANCHOR_TOP_LEFT,
+	             type : BMAP_NAVIGATION_CONTROL_LARGE
+	         });
+	         map.addControl(ctrlNav);
+	         //向地图中添加缩略图控件
+	         var ctrlOve = new window.BMap.OverviewMapControl({
+	             anchor : BMAP_ANCHOR_BOTTOM_RIGHT,
+	             isOpen : 1
+	         });
+// 	         map.addControl(ctrlOve);
+	         //向地图中添加比例尺控件
+	         var ctrlSca = new window.BMap.ScaleControl({
+	             anchor : BMAP_ANCHOR_BOTTOM_LEFT
+	         });
+// 	         map.addControl(ctrlSca);
+	         
+	      	// 添加带有定位的导航控件
+	         var navigationControl = new BMap.NavigationControl({
+	           // 靠左上角位置
+	           anchor: BMAP_ANCHOR_TOP_LEFT,
+	           // LARGE类型
+	           type: BMAP_NAVIGATION_CONTROL_LARGE,
+	           // 启用显示定位
+	           enableGeolocation: true
+	         });
+// 	         map.addControl(navigationControl);
+	         
+	      /* // 添加定位控件
+	          var geolocationControl = new BMap.GeolocationControl();
+	         geolocationControl.addEventListener("locationSuccess", function(e){
+	           // 定位成功事件
+	           var address = '';
+	           address += e.addressComponent.province;
+	           address += e.addressComponent.city;
+	           address += e.addressComponent.district;
+	           address += e.addressComponent.street;
+	           address += e.addressComponent.streetNumber;
+// 	           alert("当前定位地址为：" + address);
+// 	           $("#BMap_Marker img").attr("src","images/j.png").width(24);
+	           $(".BMap_Marker img").attr("src","images/j.png").attr("id","arrow");
+	         });
+	         geolocationControl.addEventListener("locationError",function(e){
+	           // 定位失败事件
+	           alert(e.message);
+	         });
+	         
+	         map.addControl(geolocationControl); */
+	         
+         	map.addEventListener("click", showInfo);
+	         
+	        //显示所有楼
+         	/* var markerArr = [];
+			marker = new Array();
+			 	for(var i = 0;i < buildall.length; i++){
+				 	markerArr.push({
+				    title : buildall[i].name,
+				    point : buildall[i].point
+				});
+			}
+			setPoint(markerArr); */
+	     }
+	     
+	     function showInfo(e){
+	 		console.log(e.point.lng + "," + e.point.lat);
+	 	}
+	     
+	     //异步调用百度js
+	     function map_load() {
+	         var load = document.createElement("script");
+	         load.src = "http://api.map.baidu.com/api?v=2.0&ak=IDvNBsejl9oqMbPF316iKsXR&callback=map_init";
+	         document.body.appendChild(load);
+	     }
+	     window.onload = map_load;
+	     
+	     var marker;
+	     function setPoint(markerArr){
+	     	var point = new Array(); //存放标注点经纬信息的数组
+	         var info = new Array(); //存放提示信息窗口对象的数组
+	         var searchInfoWindow = new Array();//存放检索信息窗口对象的数组
+	         
+// 	         map.clearOverlays();
+	         for (var i = 0; i < markerArr.length; i++) {
+	             var p0 = markerArr[i].point.split(",")[0]; //
+	             var p1 = markerArr[i].point.split(",")[1]; //按照原数组的point格式将地图点坐标的经纬度分别提出来
+	             point[i] = new window.BMap.Point(p0, p1); //循环生成新的地图点
+	             marker[i] = new window.BMap.Marker(point[i]); //按照地图点坐标生成标记
+	             
+		         map.centerAndZoom(point[i], 19); // 初始化地图,设置中心点坐标和地图级别。
+		         
+	             map.addOverlay(marker[i]);
+	             marker[i].setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	             //显示marker的title，marker多的话可以注释掉
+	             var label = new window.BMap.Label(markerArr[i].title, {
+	                 offset : new window.BMap.Size(20, -10)
+	             });
+	             marker[i].setLabel(label);
+	             // 创建信息窗口对象
+	             info[i] = "<p style=’font-size:12px;lineheight:1.8em;’>"
+	                     + "</br>简介："
+	                     + markerArr[i].description
+	                     + "</br>地址："
+	                     + markerArr[i].address
+	                     + "</br> 电话：" + markerArr[i].tel + "</br></p>";
+	             //创建百度样式检索信息窗口对象                       
+	             searchInfoWindow[i] = new BMapLib.SearchInfoWindow(map,
+	                     info[i], {
+	                         title : markerArr[i].title, //标题
+	                         width : 290, //宽度
+	                         height : 100, //高度
+	                         panel : "panel", //检索结果面板
+	                         enableAutoPan : true, //自动平移
+	                         searchTypes : [ BMAPLIB_TAB_SEARCH, //周边检索
+	                         BMAPLIB_TAB_TO_HERE, //到这里去
+	                         BMAPLIB_TAB_FROM_HERE //从这里出发
+	                         ]
+	                     });
+	             //添加点击事件
+	             marker[i].addEventListener("click", (function(k) {
+	                 // js 闭包
+	                 return function() {
+	                     //将被点击marker置为中心
+	                     map.centerAndZoom(point[k], 18);
+	                     //在marker上打开检索信息窗口
+// 	                     searchInfoWindow[k].open(marker[k]);
+	                 }
+	             })(i));
+	         }
+	     }
+	     
+	     if(window.DeviceOrientationEvent){//返回一个DeviceOrientationEvent对象
+    	    window.addEventListener('deviceorientation',DeviceOrientationHandler,false);///添加监听事件
+   		 }else{
+    	    alert("您的浏览器不支持DeviceOrientation");
+    	 }
+
+		function DeviceOrientationHandler(event) {
+		    alpha = event.alpha; //Z轴方向
+		    var beta = event.beta,//X轴方向
+		        gamma = event.gamma;//Y轴方向
+		
+		    if (alpha != null) {
+		        arrow.style.webkitTransform = "rotate(" + (-alpha+75) + "deg)";//箭头旋转
+		    }
+		}
+	 </script>
+</body>
+</html>
