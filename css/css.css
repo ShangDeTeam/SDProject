@@ -175,10 +175,23 @@ img{
 }
 
 
-
-
-
-
+/* table */
+table th, table td {
+	text-align: center;
+}
+table td {
+	cursor: pointer;
+}
+.pure-table th, .pure-table td:first-child {
+	color: #fff;
+	background-color: #8A5358;
+}
+.pure-table td:nth-child(2), .pure-table td:last-child {
+	color: red;
+}
+.pure-table th:first-child {
+    border-bottom: 1px solid #cbcbcb;
+}
 
 
 
