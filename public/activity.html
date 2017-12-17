@@ -93,6 +93,10 @@
                         <img src="images/activity/ticket-2.JPEG">                        
                     </div>
                 </div>
+
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
 
@@ -112,10 +116,10 @@
             },
         });
 
-
         var swiper = new Swiper('.ticket-container', {
             effect: 'flip',
             grabCursor: true,
+            loop: true,
             pagination: {
                 el: '.swiper-pagination',
             },
