@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>School Information</title>
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" type="text/css" href="libs/animate/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+
+    <style type="text/css">
+      html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: #235ba3;
+        overflow-x:hidden;
+      }
+      body {
+        position: relative;
+      }
+
+      .profile{
+        position: relative;          
+        font-size: 14px;
+        width: 80%;
+        margin:10px auto 60px auto; 
+        color: #fff;
+        border-radius:5px;
+        line-height: 22px;
+        padding: 5%;
+        display: block;
+        background: rgba(255,255,255,.14);
+        overflow: hidden;
+      }
+  
+      .profile p{
+        display: block;          
+        line-height: 18px;
+        font-size: 10px;
+        color: rgba(255,255,255,.6);
+        margin: 20px 0;
+      }
+      h3{
+        font-size: 16px;
+        color: #fff;
+        display: inline-block;  
+        margin: 30px 8px 10px 0;
+        text-align: center;
+        width: 100%;
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 class="bounceInDown animated">English Musical</h3>
+
+    <div class="profile bounceInDown animated"  style="animation-delay: 0.5s;">
+        <div class="activity-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="images/activity/1.JPEG">                        
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/activity/2.JPEG">                        
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/activity/3.JPEG">                        
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/activity/4.JPEG">                        
+                </div>
+                <div class="swiper-slide">
+                    <img src="images/activity/5.JPEG">                        
+                </div>
+            </div>
+        </div>
+
+        <p>🎉🎉🎉学部倾力打造年度大戏《花木兰》公演倒计时🎬
+        黄金席位，预购从速，请点击下方链接🔗购票🎫
+        此次公演的收益将用于支持融中的CP项目——资助云南留守儿童学校❤️</p>
+
+        
+        <div class="ticket">
+            <div class="ticket-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="images/activity/ticket-1.JPEG">                        
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="images/activity/ticket-2.JPEG">                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="back-btn fadeInUp animated" style="animation-delay: 1.6s; animation-duration:3s;">
+      <a href="/calendar.html">Back</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>    
+    <script>
+        var swiper = new Swiper('.activity-container', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+
+        var swiper = new Swiper('.ticket-container', {
+            effect: 'flip',
+            grabCursor: true,
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+  </body>
+</html>
