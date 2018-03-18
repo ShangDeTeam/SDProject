@@ -9,8 +9,8 @@
         {% include "header.html" %}        
     </header>
 
-    <section class="login-content">
-        <div class="login-card">
+    <section class="login-content" id="login-content">
+        <div class="login-card" id="login-card">
             <form class="login-form">
                 <div class="form-group">
                     <label for="username">用户名</label>
@@ -28,5 +28,30 @@
 
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="/js/vendor/jquery.particleground.min.js"></script>
+    <script>
+        // 粒子系统插件配置
+        // $('#login-content').particleground({
+        //     dotColor: '#eaeaea',
+        //     lineColor: '#ccc',
+        //     lineWidth: 0.2,
+        //     particleRadius: 6,
+        //     proximity: 200,
+        //     density: 20000
+        // });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            particleground(document.getElementById('login-content'), {
+                dotColor: '#eaeaea',
+                lineColor: '#ccc',
+                lineWidth: 0.2,
+                particleRadius: 6,
+                proximity: 200,
+                density: 20000
+            });
+            // var intro = document.getElementById('login-card');
+            // intro.style.marginTop = - intro.offsetHeight / 2 + 'px';
+        }, false);
+    </script>
 </body>
 </html>
