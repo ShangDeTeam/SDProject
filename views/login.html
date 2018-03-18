@@ -21,27 +21,19 @@
                     <input type="password" class="form-control" id="password" placeholder="请输入您的密码">
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">登录</button>
+                <button type="submit" class="btn btn-primary btn-block" id="login-btn">登录</button>
             </form>
         </div>
     </section>    
 
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="/js/vendor/jquery.particleground.min.js"></script>
+    <script src="/js/vendor/jquery.toast.min.js"></script>    
     <script>
-        // 粒子系统插件配置
-        // $('#login-content').particleground({
-        //     dotColor: '#eaeaea',
-        //     lineColor: '#ccc',
-        //     lineWidth: 0.2,
-        //     particleRadius: 6,
-        //     proximity: 200,
-        //     density: 20000
-        // });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            particleground(document.getElementById('login-content'), {
+        $(document).ready(function () {
+            // 粒子系统插件配置            
+            $('#login-content').particleground({
                 dotColor: '#eaeaea',
                 lineColor: '#ccc',
                 lineWidth: 0.2,
@@ -49,9 +41,54 @@
                 proximity: 200,
                 density: 20000
             });
-            // var intro = document.getElementById('login-card');
-            // intro.style.marginTop = - intro.offsetHeight / 2 + 'px';
-        }, false);
+
+            $('#login-btn').click(function(e) {
+                e.preventDefault();
+                login();
+            });
+
+            $('#password').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    login();                    
+                }
+            });
+
+            // 登录
+            function login() {
+                var username = $('#username').val().trim();
+                var password = $('#password').val().trim();
+                
+                if(validate(username, password)) {
+                    $.toast({
+                        heading: '登录成功！',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        position: 'top-center'
+                    });
+
+                    setTimeout(function() {
+                        window.location.href = '/calendar.html';
+                    }, 1500);
+                } else {
+                    $.toast({
+                        heading: '账号密码有误，请重新输入',
+                        showHideTransition: 'slide',
+                        icon: 'error',
+                        position: 'top-center'
+                    });
+                }
+            }
+
+            // 账号校验
+            function validate(username, password) {
+                if(username === 'admin' && password === '123456') {
+                    return true;
+                }
+
+                return false;
+            }
+        });
     </script>
 </body>
 </html>
